@@ -274,7 +274,320 @@
 		},
 		{
 			"name": "pma pre-postagem (36)",
-			"item": []
+			"item": [
+				{
+					"name": "cria uma pre-postagem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigoServico\": \"04162\",\n    \"destinatario\": {\n        \"nome\": \"Nome do destinatário de exemplo\",\n        \"dddTelefone\": \"11\",\n        \"telefone\": \"12345678\",\n        \"dddCelular\": \"11\",\n        \"celular\": \"912345678\",\n        \"email\": \"email@exemplocorreios.com.br\",\n        \"cpfCnpj\": \"00000000191\",\n        \"obs\": \"\",\n        \"endereco\": {\n            \"cep\": \"70002900\",\n            \"logradouro\": \"Endereço do destinatário de exemplo\",\n            \"numero\": \"123456\",\n            \"complemento\": \"complemento do destinatário de exemplo\",\n            \"bairro\": \"bairro do destinatário\",\n            \"cidade\": \"cidade do destinatário\",\n            \"uf\": \"DF\"\n        }\n    },\n    \"remetente\": {\n        \"nome\": \"Nome do remetente de exemplo\",\n        \"dddTelefone\": \"11\",\n        \"telefone\": \"12345678\",\n        \"dddCelular\": \"11\",\n        \"celular\": \"123456789\",\n        \"email\": \"exemplo@exemplocorreios.com.br\",\n        \"cpfCnpj\": \"00000000191\",\n        \"obs\": \"\",\n        \"endereco\": {\n            \"cep\": \"03434040\",\n            \"logradouro\": \"Endereço do remetente de exemplo\",\n            \"numero\": \"123456\",\n            \"complemento\": \"Complemento do remetente\",\n            \"bairro\": \"Bairro do remetente\",\n            \"cidade\": \"São Paulo\",\n            \"uf\": \"SP\"\n        }\n    },\n    \"numeroNotaFiscal\": \"12345789012\",\n    \"numeroCartaoPostagem\": \"\",\n    \"chaveNFe\": \"12345678901234567890123456789012345678901234\",\n    \"listaServicoAdicional\": [\n        {\n            \"codigoServicoAdicional\": \"001\"\n        }\n    ],\n    \"itensDeclaracaoConteudo\": [\n        {\n            \"conteudo\": \"Produto XYZ\",\n            \"quantidade\": 10,\n            \"valor\": 190.23\n        },\n        {\n            \"conteudo\": \"Produto ZYX\",\n            \"quantidade\": 12,\n            \"valor\": 11.23\n        }\n    ],\n    \"pesoInformado\": \"1000\",\n    \"alturaInformada\": \"1\",\n    \"larguraInformada\": \"8\",\n    \"comprimentoInformado\": \"13\",\n    \"diametroInformado\": \"0\",\n    \"codigoFormatoObjetoInformado\": \"2\",\n    \"cienteObjetoNaoProibido\": 1,\n    \"solicitarColeta\": \"N\",\n    \"logisticaReversa\": \"N\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://apihom.correios.com.br/prepostagem/v1/prepostagens",
+							"protocol": "https",
+							"host": [
+								"apihom",
+								"correios",
+								"com",
+								"br"
+							],
+							"path": [
+								"prepostagem",
+								"v1",
+								"prepostagens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "consulta uma pre-postagem pelo codigo do objeto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://apihom.correios.com.br/prepostagem/v2/prepostagens?codigoObjeto=AB000327100BR",
+							"protocol": "https",
+							"host": [
+								"apihom",
+								"correios",
+								"com",
+								"br"
+							],
+							"path": [
+								"prepostagem",
+								"v2",
+								"prepostagens"
+							],
+							"query": [
+								{
+									"key": "codigoObjeto",
+									"value": "AB000327100BR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancela uma pre-postagem pelo id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://apihom.correios.com.br/prepostagem/v1/prepostagens/PRkq37L0nXQAKhPcaalFKdkA",
+							"protocol": "https",
+							"host": [
+								"apihom",
+								"correios",
+								"com",
+								"br"
+							],
+							"path": [
+								"prepostagem",
+								"v1",
+								"prepostagens",
+								"PRkq37L0nXQAKhPcaalFKdkA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "solicita um rotulo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idsPrePostagem\": [\n        \"PRPGm7LcwpROmzi2AmcDBWlA\"\n    ],\n    \"tipoRotulo\": \"P\",\n    \"formatoRotulo\": \"ET\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://apihom.correios.com.br/prepostagem/v1/prepostagens/rotulo/assincrono/pdf",
+							"protocol": "https",
+							"host": [
+								"apihom",
+								"correios",
+								"com",
+								"br"
+							],
+							"path": [
+								"prepostagem",
+								"v1",
+								"prepostagens",
+								"rotulo",
+								"assincrono",
+								"pdf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "consulta os rotulos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idsPrePostagem\": [\n        \"PRPGm7LcwpROmzi2AmcDBWlA\"\n    ],\n    \"tipoRotulo\": \"P\",\n    \"formatoRotulo\": \"ET\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://apihom.correios.com.br/prepostagem/v1/prepostagens/rotulo/download/assincrono/e7bb677f-4250-4193-bb67-7f4250d193cb",
+							"protocol": "https",
+							"host": [
+								"apihom",
+								"correios",
+								"com",
+								"br"
+							],
+							"path": [
+								"prepostagem",
+								"v1",
+								"prepostagens",
+								"rotulo",
+								"download",
+								"assincrono",
+								"e7bb677f-4250-4193-bb67-7f4250d193cb"
+							]
+						},
+						"description": "Solicitando o recibo como parâmetro, e recebe um retorno textual que é um base64. Necessita que o sistema converta o base64 em pdf."
+					},
+					"response": []
+				},
+				{
+					"name": "solicitacao faixa de etiquetas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigoServico\": \"04162\",\n    \"quantidade\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://apihom.correios.com.br/prepostagem/v1/prepostagens/rotulo/range",
+							"protocol": "https",
+							"host": [
+								"apihom",
+								"correios",
+								"com",
+								"br"
+							],
+							"path": [
+								"prepostagem",
+								"v1",
+								"prepostagens",
+								"rotulo",
+								"range"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "consulta de faixas de etiquetas geradas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigoServico\": \"04162\",\n    \"quantidade\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://apihom.correios.com.br/prepostagem/v1/prepostagens/rotulo/9912420493/solicitadas?dataInicial=18/06/2023&dataFinal=31/06/2023",
+							"protocol": "https",
+							"host": [
+								"apihom",
+								"correios",
+								"com",
+								"br"
+							],
+							"path": [
+								"prepostagem",
+								"v1",
+								"prepostagens",
+								"rotulo",
+								"9912420493",
+								"solicitadas"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "18/06/2023"
+								},
+								{
+									"key": "dataFinal",
+									"value": "31/06/2023"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "rastro (87)",
