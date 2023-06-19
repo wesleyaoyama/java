@@ -5,11 +5,12 @@
 <br/>
 
 ### APIs
-- Token
-- Preço
-- Prazo
-- Rastreamento
-- PPN
+- [Token](https://cws.correios.com.br/dashboard/pesquisa/5)
+- [Preço](https://cws.correios.com.br/dashboard/pesquisa/34)
+- [Prazo](https://cws.correios.com.br/dashboard/pesquisa/35)
+- [Rastreamento](https://cws.correios.com.br/dashboard/pesquisa/87)
+- [PPN](https://cws.correios.com.br/dashboard/pesquisa/36)
+- Outras APIs em [Correios Web Services - CWS](https://cws.correios.com.br/)
 
 ### Ferramentas necessárias
 
