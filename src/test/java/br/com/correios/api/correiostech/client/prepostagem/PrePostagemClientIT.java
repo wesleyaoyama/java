@@ -81,7 +81,7 @@ class PrePostagemClientIT {
                 )
         );
 
-        final var actualResponse = prePostagemClient.create(request);
+        final var actualResponse = prePostagemClient.cria(request);
 
         Assertions.assertNotNull(actualResponse);
         Assertions.assertNotNull(actualResponse.id());
@@ -91,6 +91,7 @@ class PrePostagemClientIT {
 
     @Test
     void givenAValidId_whenCallsCancel_thenReturnMessage() {
+        final var expectedMessage = "Cancelamento realizado com sucesso!";
         final var request = new CriaPrePostagemRequest(
                 "04162",
                 "12345789012",
@@ -147,16 +148,95 @@ class PrePostagemClientIT {
                 )
         );
 
-        final var criaPrePostagemResponse = prePostagemClient.create(request);
+        final var criaPrePostagemResponse = prePostagemClient.cria(request);
 
         Assertions.assertNotNull(criaPrePostagemResponse.id());
 
         final var idPrePostagem = criaPrePostagemResponse.id();
 
         // when
-        final var response = prePostagemClient.cancel(idPrePostagem);
+        final var response = prePostagemClient.cancela(idPrePostagem);
 
         Assertions.assertNotNull(response);
-        Assertions.assertEquals("Cancelamento realizado com sucesso!", response.resultadoCancelamento());
+        Assertions.assertEquals(expectedMessage, response.resultadoCancelamento());
+    }
+
+    @Test
+    void givenAValidParam_whenCallsGeraRotulo_thenReturnRecibo() {
+        final var criaPrePostagemRequest = new CriaPrePostagemRequest(
+                "04162",
+                "12345789012",
+                "",
+                "12345678901234567890123456789012345678901234",
+                List.of(new ServicoAdicionalRequest("001")),
+                List.of(new DeclaracaoConteudoRequest("Produto XYZ", 10, 190.23)),
+                "1000",
+                "1",
+                "8",
+                "13",
+                "0",
+                "2",
+                1,
+                "N",
+                "N",
+                new PessoaRequest(
+                        "Nome do destinatário de exemplo",
+                        "11",
+                        "12345678",
+                        "11",
+                        "912345678",
+                        "email@exemplocorreios.com.br",
+                        "00000000191",
+                        new EnderecoRequest(
+                                "70002900",
+                                "Endereço do destinatário de exemplo",
+                                "123456",
+                                "complemento do destinatário de exemplo",
+                                "bairro do destinatário",
+                                "cidade do destinatário",
+                                "DF"
+                        )
+
+                ),
+                new PessoaRequest(
+                        "Nome do remetente de exemplo",
+                        "11",
+                        "12345678",
+                        "11",
+                        "912345678",
+                        "email@exemplocorreios.com.br",
+                        "00000000191",
+                        new EnderecoRequest(
+                                "70002900",
+                                "Endereço do remetente de exemplo",
+                                "123456",
+                                "complemento do remetente de exemplo",
+                                "bairro do remetente",
+                                "cidade do remetente",
+                                "DF"
+                        )
+
+                )
+        );
+
+        final var criaPrePostagemResponse = prePostagemClient.cria(criaPrePostagemRequest);
+
+        Assertions.assertNotNull(criaPrePostagemResponse.id());
+
+        final var idPrePostagem = criaPrePostagemResponse.id();
+
+        final var request = new GeraRotuloRequest(
+                List.of(idPrePostagem),
+                "P",
+                "ET"
+        );
+
+        // when
+        final var actualResponse = prePostagemClient.geraRotulo(request);
+
+        // then
+        Assertions.assertNotNull(actualResponse);
+        Assertions.assertNotNull(actualResponse.idRecibo());
+        Assertions.assertFalse(actualResponse.idRecibo().isBlank());
     }
 }

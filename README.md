@@ -5,6 +5,7 @@
 <br/>
 
 ### APIs
+- Token
 - Preço
 - Prazo
 - Rastreamento
@@ -18,7 +19,7 @@
 
 ### Como executar?
 
-1. Criar as variaveis de ambiente CORREIOS_USUARIO, CORREIOS_SENHA, CORREIOS_CONTRATO
+1. Criar as variaveis de ambiente CORREIOS_USUARIO, CORREIOS_SENHA, CORREIOS_CONTRATO, CORREIOS_CARTAO_POSTAGEM
 2. Executar a aplicação como SpringBoot app
 
 ### Coleções de exemplo Postman
