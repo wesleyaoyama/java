@@ -5,6 +5,8 @@ import br.com.correios.api.correiostech.configuration.WebServerConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,6 +17,8 @@ import java.util.List;
 @ActiveProfiles("test")
 @SpringBootTest(classes = WebServerConfig.class)
 class PrePostagemClientIT {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrePostagemClientIT.class);
 
     @Autowired
     private PrePostagemClient prePostagemClient;
@@ -81,5 +85,78 @@ class PrePostagemClientIT {
 
         Assertions.assertNotNull(actualResponse);
         Assertions.assertNotNull(actualResponse.id());
+
+        LOGGER.debug("CriaPrePostagemResponse {}",actualResponse);
+    }
+
+    @Test
+    void givenAValidId_whenCallsCancel_thenReturnMessage() {
+        final var request = new CriaPrePostagemRequest(
+                "04162",
+                "12345789012",
+                "",
+                "12345678901234567890123456789012345678901234",
+                List.of(new ServicoAdicionalRequest("001")),
+                List.of(new DeclaracaoConteudoRequest("Produto XYZ", 10, 190.23)),
+                "1000",
+                "1",
+                "8",
+                "13",
+                "0",
+                "2",
+                1,
+                "N",
+                "N",
+                new PessoaRequest(
+                        "Nome do destinatário de exemplo",
+                        "11",
+                        "12345678",
+                        "11",
+                        "912345678",
+                        "email@exemplocorreios.com.br",
+                        "00000000191",
+                        new EnderecoRequest(
+                                "70002900",
+                                "Endereço do destinatário de exemplo",
+                                "123456",
+                                "complemento do destinatário de exemplo",
+                                "bairro do destinatário",
+                                "cidade do destinatário",
+                                "DF"
+                        )
+
+                ),
+                new PessoaRequest(
+                        "Nome do remetente de exemplo",
+                        "11",
+                        "12345678",
+                        "11",
+                        "912345678",
+                        "email@exemplocorreios.com.br",
+                        "00000000191",
+                        new EnderecoRequest(
+                                "70002900",
+                                "Endereço do remetente de exemplo",
+                                "123456",
+                                "complemento do remetente de exemplo",
+                                "bairro do remetente",
+                                "cidade do remetente",
+                                "DF"
+                        )
+
+                )
+        );
+
+        final var criaPrePostagemResponse = prePostagemClient.create(request);
+
+        Assertions.assertNotNull(criaPrePostagemResponse.id());
+
+        final var idPrePostagem = criaPrePostagemResponse.id();
+
+        // when
+        final var response = prePostagemClient.cancel(idPrePostagem);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals("Cancelamento realizado com sucesso!", response.resultadoCancelamento());
     }
 }

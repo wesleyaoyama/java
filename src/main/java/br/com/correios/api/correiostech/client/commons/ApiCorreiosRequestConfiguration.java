@@ -52,6 +52,6 @@ public class ApiCorreiosRequestConfiguration {
 //
     @Bean
     public Logger.Level feignLoggerLevel() {
-        return Logger.Level.FULL;
+        return Logger.Level.BASIC;
     }
 }
