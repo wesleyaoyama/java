@@ -12,6 +12,7 @@ public class CredencialProperties implements InitializingBean {
     private String senha;
     private String urlToken;
     private String contrato;
+    private String cartaoPostagem;
 
     @Override
     public String toString() {
@@ -19,6 +20,7 @@ public class CredencialProperties implements InitializingBean {
                 "usuario='" + usuario + '\'' +
                 ", urlToken='" + urlToken + '\'' +
                 ", contrato='" + contrato + '\'' +
+                ", cartaoPostagem='" + cartaoPostagem + '\'' +
                 '}';
     }
 
@@ -52,6 +54,14 @@ public class CredencialProperties implements InitializingBean {
 
     public void setContrato(String contrato) {
         this.contrato = contrato;
+    }
+
+    public String getCartaoPostagem() {
+        return cartaoPostagem;
+    }
+
+    public void setCartaoPostagem(String cartaoPostagem) {
+        this.cartaoPostagem = cartaoPostagem;
     }
 
     @Override

@@ -41,7 +41,8 @@ public class ApiCorreiosRequestConfiguration {
         final var user = credencialProperties.getUsuario();
         final var password = credencialProperties.getSenha();
         final var contrato = credencialProperties.getContrato();
-        return new BearerAuthRequestInterceptor(urlToken, user, password, contrato);
+        final var cartaoPostagem = credencialProperties.getCartaoPostagem();
+        return new BearerAuthRequestInterceptor(urlToken, user, password, contrato, cartaoPostagem);
     }
 
 //    @Bean
@@ -51,6 +52,6 @@ public class ApiCorreiosRequestConfiguration {
 //
     @Bean
     public Logger.Level feignLoggerLevel() {
-        return Logger.Level.BASIC;
+        return Logger.Level.FULL;
     }
 }

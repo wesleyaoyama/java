@@ -22,13 +22,15 @@ public class BearerAuthRequestInterceptor implements RequestInterceptor {
     private final String user;
     private final String password;
     private final String contrato;
+    private final String cartaoPostagem;
     private Token objToken;
 
-    public BearerAuthRequestInterceptor(String urlToken, String user, String password, String contrato) {
+    public BearerAuthRequestInterceptor(String urlToken, String user, String password, String contrato, String cartaoPostagem) {
         this.urlToken = urlToken;
         this.user = user;
         this.password = password;
         this.contrato = contrato;
+        this.cartaoPostagem = cartaoPostagem;
     }
 
     public void apply(RequestTemplate var1) {
@@ -75,13 +77,16 @@ public class BearerAuthRequestInterceptor implements RequestInterceptor {
     }
 
     private void novoToken() {
-        if (this.contrato != null && !this.contrato.isBlank()) {
+        if (this.cartaoPostagem != null && !this.cartaoPostagem.isBlank()) {
+            this.objToken = this.tokenClient().autenticaCartaoPostagem(cartaoPostagem);
+            LOGGER.info("api-correios: token user: {}, expiraEm: {}, apis restritas autorizadas cartao de postagem: {} ", this.objToken.getId(), this.objToken.getExpiraEm(), this.objToken.getApisCartaoPostagem());
+        } else if (this.contrato != null && !this.contrato.isBlank()) {
             this.objToken = this.tokenClient().autenticaContrato(contrato);
+            LOGGER.info("api-correios: token user: {}, expiraEm: {}, apis restritas autorizadas contrato: {} ", this.objToken.getId(), this.objToken.getExpiraEm(), this.objToken.getApisContrato());
         } else {
             this.objToken = this.tokenClient().token();
         }
         LOGGER.info("api-correios: token user: {}, expiraEm: {}, apis restritas autorizadas: {} ", this.objToken.getId(), this.objToken.getExpiraEm(), this.objToken.getApi());
-        LOGGER.info("api-correios: token user: {}, expiraEm: {}, apis restritas autorizadas contrato: {} ", this.objToken.getId(), this.objToken.getExpiraEm(), this.objToken.getApisContrato());
     }
 
     private TokenClientRequest tokenClient() {

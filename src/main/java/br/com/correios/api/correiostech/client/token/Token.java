@@ -11,6 +11,7 @@ public class Token {
     private String token;
     private List<Integer> api;
     private Contrato contrato;
+    private CartaoPostagem cartaoPostagem;
 
     public Token() {
     }
@@ -71,11 +72,26 @@ public class Token {
         this.contrato = contrato;
     }
 
+    public CartaoPostagem getCartaoPostagem() {
+        return cartaoPostagem;
+    }
+
+    public void setCartaoPostagem(CartaoPostagem cartaoPostagem) {
+        this.cartaoPostagem = cartaoPostagem;
+    }
+
     public List<Integer> getApisContrato() {
         if (contrato == null) {
             return null;
         }
         return getContrato().getApi();
+    }
+
+    public List<Integer> getApisCartaoPostagem() {
+        if (cartaoPostagem == null) {
+            return null;
+        }
+        return getCartaoPostagem().getApi();
     }
 
     public boolean estaExpirado() {

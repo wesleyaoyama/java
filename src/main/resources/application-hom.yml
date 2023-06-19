@@ -2,6 +2,7 @@ correios:
   client:
     base-url: https://apihom.correios.com.br
 
+
 #-- logging --------------------------------------------------------------------------------------------------------------
 logging:
   level:
