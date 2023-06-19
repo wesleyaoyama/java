@@ -1,10 +1,12 @@
 package br.com.correios.api.correiostech.client.commons;
 
+import br.com.correios.api.correiostech.client.commons.exception.ErrorApiGatewayDecoder;
 import br.com.correios.api.correiostech.configuration.properties.CredencialProperties;
 import br.com.correios.api.correiostech.client.commons.interceptor.BearerAuthRequestInterceptor;
 import feign.Logger;
 import feign.Request;
 import feign.Retryer;
+import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 
 import java.util.concurrent.TimeUnit;
@@ -45,11 +47,11 @@ public class ApiCorreiosRequestConfiguration {
         return new BearerAuthRequestInterceptor(urlToken, user, password, contrato, cartaoPostagem);
     }
 
-//    @Bean
-//    public ErrorDecoder errorDecoder() {
-//        return new ErrorApiGatewayDecoder();
-//    }
-//
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new ErrorApiGatewayDecoder();
+    }
+
     @Bean
     public Logger.Level feignLoggerLevel() {
         return Logger.Level.BASIC;

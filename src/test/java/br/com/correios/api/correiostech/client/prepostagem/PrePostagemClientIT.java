@@ -1,6 +1,7 @@
 package br.com.correios.api.correiostech.client.prepostagem;
 
 import br.com.correios.api.correiostech.client.prepostagem.model.*;
+import br.com.correios.api.correiostech.client.token.exception.ApiClientErrorException;
 import br.com.correios.api.correiostech.configuration.WebServerConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -25,6 +26,7 @@ class PrePostagemClientIT {
 
     @Test
     void givenAValidParam_whenCallsCreatePrePostagem_thenReturnPrePostagemWithId() {
+        // given
         final var request = new CriaPrePostagemRequest(
                 "04162",
                 "12345789012",
@@ -81,8 +83,10 @@ class PrePostagemClientIT {
                 )
         );
 
+        // when
         final var actualResponse = prePostagemClient.cria(request);
 
+        // then
         Assertions.assertNotNull(actualResponse);
         Assertions.assertNotNull(actualResponse.id());
 
@@ -91,62 +95,9 @@ class PrePostagemClientIT {
 
     @Test
     void givenAValidId_whenCallsCancel_thenReturnMessage() {
+        // given
         final var expectedMessage = "Cancelamento realizado com sucesso!";
-        final var request = new CriaPrePostagemRequest(
-                "04162",
-                "12345789012",
-                "",
-                "12345678901234567890123456789012345678901234",
-                List.of(new ServicoAdicionalRequest("001")),
-                List.of(new DeclaracaoConteudoRequest("Produto XYZ", 10, 190.23)),
-                "1000",
-                "1",
-                "8",
-                "13",
-                "0",
-                "2",
-                1,
-                "N",
-                "N",
-                new PessoaRequest(
-                        "Nome do destinatário de exemplo",
-                        "11",
-                        "12345678",
-                        "11",
-                        "912345678",
-                        "email@exemplocorreios.com.br",
-                        "00000000191",
-                        new EnderecoRequest(
-                                "70002900",
-                                "Endereço do destinatário de exemplo",
-                                "123456",
-                                "complemento do destinatário de exemplo",
-                                "bairro do destinatário",
-                                "cidade do destinatário",
-                                "DF"
-                        )
-
-                ),
-                new PessoaRequest(
-                        "Nome do remetente de exemplo",
-                        "11",
-                        "12345678",
-                        "11",
-                        "912345678",
-                        "email@exemplocorreios.com.br",
-                        "00000000191",
-                        new EnderecoRequest(
-                                "70002900",
-                                "Endereço do remetente de exemplo",
-                                "123456",
-                                "complemento do remetente de exemplo",
-                                "bairro do remetente",
-                                "cidade do remetente",
-                                "DF"
-                        )
-
-                )
-        );
+        final var request = newCriaPrePostagemRequest();
 
         final var criaPrePostagemResponse = prePostagemClient.cria(request);
 
@@ -157,68 +108,15 @@ class PrePostagemClientIT {
         // when
         final var response = prePostagemClient.cancela(idPrePostagem);
 
+        // then
         Assertions.assertNotNull(response);
         Assertions.assertEquals(expectedMessage, response.resultadoCancelamento());
     }
 
     @Test
     void givenAValidParam_whenCallsGeraRotulo_thenReturnRecibo() {
-        final var criaPrePostagemRequest = new CriaPrePostagemRequest(
-                "04162",
-                "12345789012",
-                "",
-                "12345678901234567890123456789012345678901234",
-                List.of(new ServicoAdicionalRequest("001")),
-                List.of(new DeclaracaoConteudoRequest("Produto XYZ", 10, 190.23)),
-                "1000",
-                "1",
-                "8",
-                "13",
-                "0",
-                "2",
-                1,
-                "N",
-                "N",
-                new PessoaRequest(
-                        "Nome do destinatário de exemplo",
-                        "11",
-                        "12345678",
-                        "11",
-                        "912345678",
-                        "email@exemplocorreios.com.br",
-                        "00000000191",
-                        new EnderecoRequest(
-                                "70002900",
-                                "Endereço do destinatário de exemplo",
-                                "123456",
-                                "complemento do destinatário de exemplo",
-                                "bairro do destinatário",
-                                "cidade do destinatário",
-                                "DF"
-                        )
-
-                ),
-                new PessoaRequest(
-                        "Nome do remetente de exemplo",
-                        "11",
-                        "12345678",
-                        "11",
-                        "912345678",
-                        "email@exemplocorreios.com.br",
-                        "00000000191",
-                        new EnderecoRequest(
-                                "70002900",
-                                "Endereço do remetente de exemplo",
-                                "123456",
-                                "complemento do remetente de exemplo",
-                                "bairro do remetente",
-                                "cidade do remetente",
-                                "DF"
-                        )
-
-                )
-        );
-
+        // given
+        final var criaPrePostagemRequest = newCriaPrePostagemRequest();
         final var criaPrePostagemResponse = prePostagemClient.cria(criaPrePostagemRequest);
 
         Assertions.assertNotNull(criaPrePostagemResponse.id());
@@ -238,5 +136,78 @@ class PrePostagemClientIT {
         Assertions.assertNotNull(actualResponse);
         Assertions.assertNotNull(actualResponse.idRecibo());
         Assertions.assertFalse(actualResponse.idRecibo().isBlank());
+    }
+
+    @Test
+    void givenAnInvalidRecibo_whenCallsGetRotulo_thenReturnRotulo() throws InterruptedException {
+        // given
+        final var idRecibo = "recibo-invalido";
+        final var expectedErrorMessage = "Recibo id recibo-invalido não localizado no cache. Solicite nova geração do rótulo.";
+
+        // when
+        final var actualException = Assertions.assertThrows(ApiClientErrorException.class, () -> prePostagemClient.getRotulo(idRecibo));
+
+        // then
+        Assertions.assertNotNull(actualException);
+        Assertions.assertEquals(400, actualException.status());
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
+
+    private CriaPrePostagemRequest newCriaPrePostagemRequest() {
+        return new CriaPrePostagemRequest(
+                "04162",
+                "12345789012",
+                "",
+                "12345678901234567890123456789012345678901234",
+                List.of(new ServicoAdicionalRequest("001")),
+                List.of(new DeclaracaoConteudoRequest("Produto XYZ", 10, 190.23)),
+                "1000",
+                "1",
+                "8",
+                "13",
+                "0",
+                "2",
+                1,
+                "N",
+                "N",
+                new PessoaRequest(
+                        "Nome do destinatário de exemplo",
+                        "11",
+                        "12345678",
+                        "11",
+                        "912345678",
+                        "email@exemplocorreios.com.br",
+                        "00000000191",
+                        new EnderecoRequest(
+                                "70002900",
+                                "Endereço do destinatário de exemplo",
+                                "123456",
+                                "complemento do destinatário de exemplo",
+                                "bairro do destinatário",
+                                "cidade do destinatário",
+                                "DF"
+                        )
+
+                ),
+                new PessoaRequest(
+                        "Nome do remetente de exemplo",
+                        "11",
+                        "12345678",
+                        "11",
+                        "912345678",
+                        "email@exemplocorreios.com.br",
+                        "00000000191",
+                        new EnderecoRequest(
+                                "70002900",
+                                "Endereço do remetente de exemplo",
+                                "123456",
+                                "complemento do remetente de exemplo",
+                                "bairro do remetente",
+                                "cidade do remetente",
+                                "DF"
+                        )
+
+                )
+        );
     }
 }
