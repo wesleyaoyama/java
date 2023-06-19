@@ -9,6 +9,7 @@ correios:
   client:
     preco-url: ${correios.client.base-url}/preco
     rastro-url: ${correios.client.base-url}/srorastro
+    prazo-url: ${correios.client.base-url}/prazo
 
 spring:
   jackson:

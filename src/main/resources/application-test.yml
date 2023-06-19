@@ -1,0 +1,9 @@
+correios:
+  client:
+    base-url: https://apihom.correios.com.br
+
+#-- logging --------------------------------------------------------------------------------------------------------------
+logging:
+  level:
+    root: INFO
+    br.com.correios.api.correiostech: DEBUG
