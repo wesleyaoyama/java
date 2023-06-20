@@ -25,3 +25,9 @@
 
 ### Coleções de exemplo Postman
 - Disponivel coleções de exemplo para importação no Postman
+
+### Usuário temporário para evento Correios Tech
+CORREIOS_USUARIO="bvcbltda"
+CORREIOS_SENHA="inANUOVQBvAmRbAVemRqmpZhQFMYzGL1fsPcXQiH"
+CORREIOS_CONTRATO="9912420493"
+CORREIOS_CARTAO_POSTAGEM="0076770702"
