@@ -153,6 +153,34 @@ class PrePostagemClientIT {
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
     }
 
+    @Test
+    void givenAValidIdRecibo_whenCallsGetRotulo_thenReturnRotulo() throws InterruptedException {
+        // given
+        final var criaPrePostagemRequest = newCriaPrePostagemRequest();
+        final var criaPrePostagemResponse = prePostagemClient.cria(criaPrePostagemRequest);
+
+        Assertions.assertNotNull(criaPrePostagemResponse.id());
+
+        final var idPrePostagem = criaPrePostagemResponse.id();
+
+        final var request = new GeraRotuloRequest(
+                List.of(idPrePostagem),
+                "P",
+                "ET"
+        );
+        final var rotulo = prePostagemClient.geraRotulo(request);
+        final var idRecibo = rotulo.idRecibo();
+        Thread.sleep(500);
+
+        // when
+        final var actualResponse = prePostagemClient.getRotulo(idRecibo);
+
+        // then
+        Assertions.assertNotNull(actualResponse);
+        Assertions.assertNotNull(actualResponse.nome());
+        Assertions.assertFalse(actualResponse.dados().isBlank());
+    }
+
     private CriaPrePostagemRequest newCriaPrePostagemRequest() {
         return new CriaPrePostagemRequest(
                 "04162",
