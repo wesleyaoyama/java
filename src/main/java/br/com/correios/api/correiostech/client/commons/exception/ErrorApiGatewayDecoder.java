@@ -45,7 +45,7 @@ public class ErrorApiGatewayDecoder implements ErrorDecoder {
                 try {
                     this.log.debug("body length: {}, {}", var3.length(), var5);
                     ObjectMapper var6 = new ObjectMapper();
-                    var4 = this.errorMessageApiDecoder.toErrorMessageApiWrapper(var5, var6.readValue(var5, ErrorMessageApiGatewayDecoder.class));
+                    var4 = this.errorMessageApiDecoder.toErrorMessageApiWrapper(var5, var6.readValue(var5, MessageApiGateway.class));
                 } catch (Exception var7) {
                     this.log.error("Não foi possível decodificar a mensagem de erro.\nMensagem de erro não está padronizada.\nOu implemente uma classe ErrorMessageApiDecoder personalizada.\nJson retornado: {} \nexception: {}", var5, var7.getMessage());
                     var4 = new ErrorMessageApiWrapper();
