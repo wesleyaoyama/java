@@ -25,3 +25,5 @@
 
 ### Coleções de exemplo Postman
 - Disponivel coleções de exemplo para importação no Postman
+
+  
